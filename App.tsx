@@ -18,7 +18,7 @@ const App: React.FC = () => {
     // Debounce: 1.5 seconds cooldown between interactions to prevent accidental double-skips
     if (now - lastFistTime > 1500) {
       setLastFistTime(now);
-      
+
       if (currentNumber > 0) {
         // Trigger squeeze effect, change number
         setCurrentNumber((prev) => prev - 1);
@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
   return (
     <div className="relative w-full h-full bg-black select-none overflow-hidden">
-      
+
       {/* Hidden Video Element for MediaPipe */}
       <video
         ref={videoRef}
@@ -54,68 +54,68 @@ const App: React.FC = () => {
       {isReady && (
         <div className="absolute inset-0 z-10 pointer-events-none p-8 flex flex-col justify-between">
           <div className="flex justify-between items-start">
-             <div>
-                <h1 className="text-2xl font-bold text-white tracking-widest uppercase" style={{ textShadow: '0 0 10px rgba(0,255,255,0.5)' }}>
-                  Chronos 2026
-                </h1>
-                <p className="text-cyan-300 text-sm font-mono mt-1 opacity-80">
-                  {currentNumber > 0 ? "SQUEEZE HAND TO ACCELERATE TIME" : "SQUEEZE TO RESET TIMELINE"}
-                </p>
-             </div>
-             
-             {/* Hand Status Indicator */}
-             <div className="flex flex-col items-end gap-2">
-                <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${handData.isPresent ? 'border-green-500/50 bg-green-900/20' : 'border-red-500/50 bg-red-900/20'}`}>
-                   <div className={`w-2 h-2 rounded-full ${handData.isPresent ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
-                   <span className="text-xs font-mono text-white">{handData.isPresent ? 'LINK ESTABLISHED' : 'SEARCHING FOR HAND'}</span>
+            {/* <div>
+              <h1 className="text-2xl font-bold text-white tracking-widest uppercase" style={{ textShadow: '0 0 10px rgba(0,255,255,0.5)' }}>
+                Happy 2026
+              </h1>
+              <p className="text-cyan-300 text-sm font-mono mt-1 opacity-80">
+                {currentNumber > 0 ? "SQUEEZE HAND TO ACCELERATE TIME" : "SQUEEZE TO RESET TIMELINE"}
+              </p>
+            </div> */}
+
+            {/* Hand Status Indicator */}
+            <div className="flex flex-col items-end gap-2">
+              <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${handData.isPresent ? 'border-green-500/50 bg-green-900/20' : 'border-red-500/50 bg-red-900/20'}`}>
+                <div className={`w-2 h-2 rounded-full ${handData.isPresent ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
+                <span className="text-xs font-mono text-white">{handData.isPresent ? 'LINK ESTABLISHED' : 'SEARCHING FOR HAND'}</span>
+              </div>
+              {/* {handData.isPresent && (
+                <div className={`text-xs font-bold transition-colors duration-200 ${handData.isFist ? 'text-yellow-400' : 'text-gray-500'}`}>
+                  {handData.isFist ? '[ FIST DETECTED ]' : '[ OPEN HAND ]'}
                 </div>
-                {handData.isPresent && (
-                   <div className={`text-xs font-bold transition-colors duration-200 ${handData.isFist ? 'text-yellow-400' : 'text-gray-500'}`}>
-                      {handData.isFist ? '[ FIST DETECTED ]' : '[ OPEN HAND ]'}
-                   </div>
-                )}
-             </div>
+              )} */}
+            </div>
           </div>
 
           <div className="text-center opacity-40">
             <p className="text-[10px] text-white font-mono">
-              Use your hand to move the energy core. Close your fist to advance the countdown or reset.
+              Bio-kinetic interface active. Move your hand to control the temporal field. Make a fist to accelerate time.
             </p>
           </div>
         </div>
       )}
 
       {/* 3D Scene */}
-      <Canvas 
+      <Canvas
         camera={{ position: [0, 0, 15], fov: 45 }}
         gl={{ antialias: false, stencil: false, depth: false }}
         dpr={[1, 1.5]} // Optimize performance
       >
         <color attach="background" args={['#050510']} />
-        
+
         {/* Environment */}
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         <ambientLight intensity={0.2} />
-        
+
         {/* Floating dust */}
         <Sparkles count={500} scale={20} size={2} speed={0.4} opacity={0.5} color="#ffffff" />
 
         {/* The Core Content */}
         {isReady && (
-            <ParticleNumber 
-                handData={handData} 
-                targetNumber={currentNumber} 
-            />
+          <ParticleNumber
+            handData={handData}
+            targetNumber={currentNumber}
+          />
         )}
 
         {/* Post Processing */}
         <EffectComposer enableNormalPass={false}>
           {/* Lower threshold so the AdditiveBlending hot spots glow, but keep radius tight for sharpness */}
-          <Bloom 
-            luminanceThreshold={0.5} 
-            mipmapBlur 
-            intensity={1.2} 
-            radius={0.6} 
+          <Bloom
+            luminanceThreshold={0.5}
+            mipmapBlur
+            intensity={1.2}
+            radius={0.6}
           />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
         </EffectComposer>
