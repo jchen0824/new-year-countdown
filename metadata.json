@@ -1,0 +1,7 @@
+{
+  "name": "2026 Cosmic Countdown",
+  "description": "A gesture-controlled 3D particle countdown to 2026.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
